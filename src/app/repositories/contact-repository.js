@@ -19,16 +19,22 @@ let contacts = [
 ];
 
 class ContactRepository {
-  findAll() {
-    return new Promise((resolve) => {
-      resolve(contacts);
-    });
+  async findAll() {
+    const rows = await db.query(`
+      SELECT * FROM contacts
+    `);
+
+    return rows;
   }
 
-  findById(id) {
-    return new Promise((resolve) => {
-      resolve(contacts.find((contact) => contact.id === id));
-    });
+  async findById(id) {
+    const [row] = await db.query(`
+      SELECT *
+        FROM contacts c
+        WHERE c.id = $1
+    `, [id]);
+
+    return row;
   }
 
   delete(id) {
@@ -37,10 +43,14 @@ class ContactRepository {
     });
   }
 
-  findByEmail(email) {
-    return new Promise((resolve) => {
-      resolve(contacts.find((contact) => contact.email === email));
-    });
+  async findByEmail(email) {
+    const [row] = await db.query(`
+      SELECT *
+        FROM contacts c
+        WHERE c.email = $1
+    `, [email]);
+
+    return row;
   }
 
   async create({
@@ -48,8 +58,10 @@ class ContactRepository {
   }) {
     const [row] = await db.query(`
       INSERT INTO
-        contacts (name, email, phone, category_id)
-        VALUES ($1, $2, $3, $4)
+        contacts
+          (name, email, phone, category_id)
+        VALUES
+          ($1, $2, $3, $4)
         RETURNING *
     `, [
       name, email, phone, categoryId,
