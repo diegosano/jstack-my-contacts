@@ -74,28 +74,23 @@ class ContactRepository {
     return row;
   }
 
-  update(id, {
+  async update(id, {
     name, email, phone, categoryId,
   }) {
-    return new Promise((resolve) => {
-      const updatedContact = {
-        id,
-        name,
-        email,
-        phone,
-        categoryId,
-      };
-      const updatedContacts = contacts.map((contact) => {
-        if (contact.id === id) {
-          return updatedContact;
-        }
+    const row = await db.query(`
+      UPDATE
+        contacts
+        SET
+          name = $1,
+          email = $2,
+          phone = $3,
+          category_id = $4
+        WHERE
+          id = $5
+        RETURNING *
+    `, [name, email, phone, categoryId, id]);
 
-        return contact;
-      });
-
-      contacts = updatedContacts;
-      resolve(updatedContacts);
-    });
+    return row;
   }
 }
 
