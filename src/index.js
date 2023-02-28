@@ -1,10 +1,10 @@
-const express = require("express");
-const routes = require("./routes");
+const express = require('express');
+const routes = require('./routes');
 
-require("express-async-errors");
+require('express-async-errors');
 
-const cors = require('./app/middlewares/cors')
-const errorHandler = require('./app/middlewares/errorHandler')
+const cors = require('./app/middlewares/cors');
+const errorHandler = require('./app/middlewares/errorHandler');
 
 const app = express();
 
@@ -14,5 +14,5 @@ app.use(routes);
 app.use(errorHandler);
 
 app.listen(3001, () =>
-  console.log("Server started and listening on port 3001")
+  console.log('Server started and listening on port 3001')
 );
