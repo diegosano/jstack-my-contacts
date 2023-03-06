@@ -17,6 +17,7 @@ module.exports = {
     'consistent-return': 'off',
     'no-unused-vars': ['error', {
       argsIgnorePattern: '^_|next',
+      ignoreDestructuring: ['always', { ignoreDestructuring: true }],
     }],
   },
 };
