@@ -67,7 +67,7 @@ class ContactRepository {
   }
 
   async create({
-    name, email, phone, category_id,
+    name, email, phone, categoryId,
   }) {
     const [row] = await db.query(`
       INSERT
@@ -78,14 +78,14 @@ class ContactRepository {
           ($1, $2, $3, $4)
         RETURNING *
     `, [
-      name, email, phone, category_id,
+      name, email, phone, categoryId,
     ]);
 
     return row;
   }
 
   async update(id, {
-    name, email, phone, category_id,
+    name, email, phone, categoryId,
   }) {
     const [row] = await db.query(`
       UPDATE
@@ -98,7 +98,7 @@ class ContactRepository {
         WHERE
           id = $5
         RETURNING *
-    `, [name, email, phone, category_id, id]);
+    `, [name, email, phone, categoryId, id]);
 
     return row;
   }

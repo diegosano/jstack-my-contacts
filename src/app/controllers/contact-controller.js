@@ -27,14 +27,14 @@ class ContactController {
 
   async store(request, response) {
     const {
-      name, email, phone, category_id,
+      name, email, phone, category_id: categoryId,
     } = request.body;
 
     if (!name) {
       return response.status(400).json({ error: 'Name is required' });
     }
 
-    if (category_id && !isValidUUID(category_id)) {
+    if (categoryId && !isValidUUID(categoryId)) {
       return response.status(400).json({ error: 'Invalid category' });
     }
 
@@ -49,7 +49,7 @@ class ContactController {
     }
 
     const contact = await ContactRepository.create({
-      category_id: category_id || null,
+      categoryId: categoryId || null,
       email: email || null,
       name,
       phone,
@@ -61,7 +61,7 @@ class ContactController {
   async update(request, response) {
     const { id } = request.params;
     const {
-      name, email, phone, category_id,
+      name, email, phone, category_id: categoryId,
     } = request.body;
 
     if (!isValidUUID(id)) {
@@ -72,7 +72,7 @@ class ContactController {
       return response.status(400).json({ error: 'Name is required' });
     }
 
-    if (category_id && !isValidUUID(category_id)) {
+    if (categoryId && !isValidUUID(categoryId)) {
       return response.status(400).json({ error: 'Invalid category' });
     }
 
@@ -93,7 +93,7 @@ class ContactController {
     }
 
     const contact = await ContactRepository.update(id, {
-      category_id: category_id || null,
+      categoryId: categoryId || null,
       email: email || null,
       name,
       phone,
